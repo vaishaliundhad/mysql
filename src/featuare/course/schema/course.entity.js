@@ -8,7 +8,14 @@ export class courseEntity extends Model{
                 defaultValue:DataTypes.UUIDV4,
                 primaryKey:true
             },
-            
+            userId:{
+                type:DataTypes.UUID,
+                allowNull:true,
+               references:{
+                model:"user",
+                key:"id"
+               }
+            },
             title:{
                 type:DataTypes.STRING,
                 allowNull:false
