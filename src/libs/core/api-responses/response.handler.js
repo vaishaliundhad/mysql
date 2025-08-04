@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 // Response handler class
 export class ResponseHandler {
   // Send a success response
-  sendSuccess(res, data) {
+    sendSuccess(res, data) {
     const isArray = Array.isArray(data);
     const response = {
       message: 'Request successful',

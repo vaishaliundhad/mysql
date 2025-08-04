@@ -3,7 +3,10 @@ import { DB_CONFIG } from '../../config/config.js';
 import { UserEntity } from '../auth/schemas/auth.entity.js';
 
 export const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1];
+
+  const authHeader = req.headers['authorization'];
+  console.log("🚀 ~ verifyToken ~ authHeader:", authHeader)
+  const token = authHeader?.split(' ')[1];
 
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
@@ -13,10 +16,10 @@ export const verifyToken = (req, res, next) => {
     console.log("🚀 ~ jwt.verify ~ decoded:", decoded);
 
     if (err) {
-      return res.status(401).send({ message: 'Unauthorized!' });
+      console.error(" JWT verification error:", err.message); 
+      return res.status(401).send({ message: 'Unauthorized!!!!!!!!!!!!!!!!!!!' });
     }
 
-    // ✅ declare first, then log
     const user = { id: decoded.id, email: decoded.email, role: decoded.role };
     console.log("✅ Authenticated user:", user);
 

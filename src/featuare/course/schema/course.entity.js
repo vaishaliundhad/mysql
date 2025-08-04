@@ -10,10 +10,10 @@ export class courseEntity extends Model{
             },
             userId:{
                 type:DataTypes.UUID,
-                allowNull:true,
-               references:{
-                model:"user",
-                key:"id"
+                allowNull:false,
+                 references:{
+                 model:"users",
+                 key:"id"
                }
             },
             title:{
@@ -43,9 +43,12 @@ export class courseEntity extends Model{
 
 
         },
+        {
         sequelize,
-        modelName ="courseEntity",
-        tableName ="courses"
+        modelName :"courseEntity",
+        tableName :"course"
+        }
+      
         
     );
 

@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize';
-import { DB_CONFIG } from '../../config/config.js';
+import { courseEntity } from '../../featuare/course/schema/course.entity.js';
 import { UserEntity } from '../../shared/auth/schemas/auth.entity.js';
 import { OtpEntity } from '../../shared/auth/schemas/otp.entity.js';
 
-export const sequelize = new Sequelize('courseProject', 'root', 'admin@1234', {
+export const sequelize = new Sequelize('courseProject', 'root', 'adminUser@123', {
   host: 'localhost',
   dialect: 'mysql',
   logging: false,
@@ -31,6 +31,7 @@ export const connectToDatabase = async () => {
     // Initialize models
     UserEntity.initModel(sequelize);
     OtpEntity.initModel(sequelize);
+    courseEntity.initModel(sequelize);
 
     await sequelize.sync();
     console.log('✅ Models initialized and synced');

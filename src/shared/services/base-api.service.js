@@ -7,6 +7,10 @@ export class BaseAPIService {
     async create(data) {
       return this.model.create(data);
     }
+
+    async getAll(data){
+      return this.model.findAll(data)
+    }
   
     async findOne(where) {
       return this.model.findOne({ where });
