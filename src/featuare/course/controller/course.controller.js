@@ -13,8 +13,18 @@ export class courseController {
     async getAll(req , res){
         const searchText = req.query.search || ''; 
         const getAll = await this._service.getAllService(searchText);
-        const result = await this._responseHandler.sendSuccess(res , getAll);
-        return result;
+        
+        // const result = await this._responseHandler.sendSuccess(res , getAll);
+       const totalcourse = getAll.length;
+       const limit = Math.max(1,parseInt (req.query.limit) ||10);
+       const currentPage = Math.max(1,parseInt(req.query.page) ||1);
+       return res.status(200).json({
+         totalcount : totalcourse,
+         totalPage : Math.ceil(limit / currentPage),
+         currentPage,
+         course : getAll
+       })
+        
     }
 
     async getMinPrice(req , res){
@@ -36,13 +46,13 @@ export class courseController {
     }
 
     async create(req , res , next){
-        // const userIdFromToken = req.auth?.id;
+        // const userIdFromToken = req.user?.id;
         // if(!userIdFromToken){
         //     return next(new NotFoundError("user id not found in token") )
         // }
         const data= req.body;
         // data.userId = userIdFromToken
-        const {error}= courseValidation.validate(req.body);
+        const {error} = courseValidation.validate(req.body);
         if(error) {
             const simpleError = error.details.map(err =>({
                 message : err.message,

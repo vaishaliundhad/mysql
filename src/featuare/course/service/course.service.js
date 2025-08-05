@@ -11,13 +11,22 @@ export class courseService {
     this._adapter = new courseAdapter();
   }
 
-  async getAllService() {
+  async getAllService(searchText = "") {
     const getAll = await this._baseapiservice.getAll({
-            where :{
-                duration:{
-                    [Op.like]:`%${searchText}%`
-                }
-            }
+    where :{
+    [Op.or]:[
+      {
+        duration :{
+          [Op.like] : `%${searchText}%`
+        }
+      },
+      {
+        level :{
+          [Op.like] : `%${searchText}%`
+        }
+      }
+    ]
+   }
     });
     return getAll;
   }
@@ -45,11 +54,11 @@ export class courseService {
     const courseSum = await courseEntity.findAll({
       where: {
         price: {
-            [Op.lte]:900
+          [Op.lte]: 900,
         },
-        duration:{
-            [Op.gt]:5
-        }
+        duration: {
+          [Op.gt]: 5,
+        },
       },
       attributes: [
         "userId",
