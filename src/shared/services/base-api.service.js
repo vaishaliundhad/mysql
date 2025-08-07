@@ -9,7 +9,7 @@ export class BaseAPIService {
     }
 
     async getAll(data){
-      return this.model.findAll(data)
+    return this.model.findAll(data)
     }
   
     async findOne(where) {

@@ -1,4 +1,5 @@
 import { DataTypes, Model } from "sequelize";
+import { UserEntity } from "../../../shared/auth/schemas/auth.entity.js";
 
 export class courseEntity extends Model{
     static initModel (sequelize){
@@ -40,18 +41,24 @@ export class courseEntity extends Model{
                 type:DataTypes.BOOLEAN,
                 allowNull:false
             }
-
-
         },
         {
         sequelize,
         modelName :"courseEntity",
-        tableName :"course"
+        tableName :"course",
+        timestamps:true
         }
-      
+       
         
     );
 
      return courseEntity;
     }
+
+   static associate(model){
+    courseEntity.belongsTo(model.UserEntity , {
+        as:"users",
+        foreignKey:"userId"
+    })
+   }
 }

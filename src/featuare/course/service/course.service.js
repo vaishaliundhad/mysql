@@ -1,8 +1,9 @@
 import { courseEntity } from "../schema/course.entity.js";
 import { BaseAPIService } from "../../../shared/services/base-api.service.js";
 import { ResponseHandler } from "../../../libs/core/api-responses/response.handler.js";
-import { courseAdapter } from "../../adapter/course.adapter.js";
+import { courseAdapter } from "../adapter/course.adapter.js";
 import { Op, Sequelize } from "sequelize";
+import { UserEntity } from "../../../shared/auth/schemas/auth.entity.js";
 
 export class courseService {
   constructor() {
@@ -11,22 +12,31 @@ export class courseService {
     this._adapter = new courseAdapter();
   }
 
-  async getAllService(searchText = "") {
+  async getAllService(searchText = "" , sortBy="createdAt" , sortOrder="DESC") {
     const getAll = await this._baseapiservice.getAll({
-    where :{
-    [Op.or]:[
-      {
-        duration :{
-          [Op.like] : `%${searchText}%`
-        }
+      where: {
+        [Op.or]: [
+          {
+            duration: {
+              [Op.like]: `%${searchText}%`,
+            },
+          },
+          {
+            level: {
+              [Op.like]: `%${searchText}%`,
+            },
+          },
+        ],
+
       },
-      {
-        level :{
-          [Op.like] : `%${searchText}%`
+      order : sortBy && sortOrder ? [[sortBy , sortOrder ] ]: undefined ,
+      include :[
+        {
+          model:UserEntity,
+          as:"users",
+
         }
-      }
-    ]
-   }
+      ]
     });
     return getAll;
   }
