@@ -36,7 +36,7 @@ export class UserEntity extends Model {
           allowNull: false,
         },
         role:{
-          type:DataTypes.ENUM('admin' , 'user'),
+          type:DataTypes.ENUM('admin' , 'user' , 'instructor'),
           allowNull:true,
           defaultValue:'user'
         },

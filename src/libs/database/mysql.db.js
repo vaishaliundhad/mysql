@@ -3,6 +3,9 @@ import { courseEntity } from "../../featuare/course/schema/course.entity.js";
 import { UserEntity } from "../../shared/auth/schemas/auth.entity.js";
 import { OtpEntity } from "../../shared/auth/schemas/otp.entity.js";
 import { enrollmentEntity } from "../../featuare/Enrollment/schema/enrollment.schema.js";
+import { assignmentEntity } from "../../featuare/assignment/schema/assignment.schema.js";
+import { submissionEntity } from "../../featuare/submission/schema/submissionEntity.js";
+
 
 export const sequelize = new Sequelize(
   "courseProject",
@@ -37,7 +40,10 @@ export const connectToDatabase = async () => {
     OtpEntity.initModel(sequelize);
     courseEntity.initModel(sequelize);
     enrollmentEntity.initModel(sequelize);
+    assignmentEntity.initModel(sequelize);
+    submissionEntity.initModel(sequelize)
     courseEntity.associate({UserEntity})
+    submissionEntity.associate({ UserEntity, assignmentEntity }),
     enrollmentEntity.associate({ courseEntity , UserEntity });
 
     await sequelize.sync();

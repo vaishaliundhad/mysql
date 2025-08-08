@@ -88,7 +88,7 @@ export class ResponseHandler {
     res.status(StatusCodes.CREATED).json(response);
   }
   // Send a resource updated response
-  sendUpdated(res, data) {
+  sendUpdatede(res, data) {
     const response = {
       message: 'Resource updated successfully',
       success: true,

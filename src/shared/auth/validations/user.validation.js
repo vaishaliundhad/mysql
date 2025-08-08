@@ -11,8 +11,8 @@ export const authSchemaValidation = Joi.object({
   }),
   phone: Joi.string().required(),
   address: Joi.string().min(5).required(),
-  role: Joi.string().valid("user", "admin").messages({
-    "any.only": "role must be user and admin",
+  role: Joi.string().valid("user", "admin" , "instructor").messages({
+    "any.only": "role must be user, instructor and admin",
   }),
   status: Joi.boolean().required().messages({
     "boolean.base": "status must be true or false",

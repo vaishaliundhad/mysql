@@ -18,4 +18,23 @@ router.get("/average" , asyncHandler(async(req , res)=>{
     await controller.getAllAverage(req , res)
 }))
 
+router.get("/course/:courseId" , asyncHandler(async(req , res)=>{
+    await controller.getUserByCourse(req , res)
+}))
+
+router.get("/course/having" , asyncHandler(async(req , res)=>{
+    await controller.getCoursesWithUserCount(req , res)
+}))
+
+router.get("/:id" , asyncHandler(async(req , res)=>{
+    await controller.getByIdEnrollment(req , res)
+}))
+
+router.put("/:id" , asyncHandler(async(req , res)=>{
+    await controller.getByUpdateEnrollment(req , res)
+}))
+
+router.delete("/:id" , asyncHandler(async(req , res)=>{
+    await controller.getDeleteEnrollment(req , res)
+}))
 export const enrollmentRouter = router;

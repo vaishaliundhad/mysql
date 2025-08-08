@@ -31,42 +31,65 @@ export class enrollmentService {
               [Op.like]: `%${searchText}%`,
             },
           },
+          {
+            courseId :{
+              [Op.like]:`%${searchText}%`
+            }
+          }
         ],
       },
 
-
-     order: sortBy && sortOrder ? [[sortBy, sortOrder]] : undefined,
+      order: sortBy && sortOrder ? [[sortBy, sortOrder]] : undefined,
       include: [
         {
-          model : UserEntity,
-          as : "users",
-          attributes : ['id' , "name" , "email" , "password" , "role" ]
+          model: UserEntity,
+          as: "users",
+          attributes: ["id", "name", "email", "password", "role"],
         },
         {
           model: courseEntity,
           as: "course",
-          attributes: ["id", "title", "description" , "price"],
+          attributes: ["id", "title", "description", "price"],
         },
-        
-      ],  
+      ],
     });
     return getAll;
   }
 
-  async getAllAverage(){
-     const enrollment = await enrollmentEntity.findAll({
-       attributes:[
-         "userId",
-         [Sequelize.fn("AVG" , Sequelize.col("progress")) , "average" ]
-       ],
-       group:['userId']
-     }) 
+  async getUserByCourse(courseId) {
+    const enrollment = await enrollmentEntity.findAll({
+      where: {
+        courseId,
+      },
+      include: [{ 
+        model: UserEntity ,
+        as:"users",
+        attributes :['id' , "name" , "email" , "role"]
+       },
+       {
+        model :courseEntity,
+        as:"course",
+        attributes :["id" , "title" , "description"]
+       }
+      ],
+    }) 
 
-     return enrollment
+  return enrollment.map( e => e.users)
+  }
+     
+  async getAllAverage() {
+    const enrollment = await enrollmentEntity.findAll({
+      attributes: [
+        "userId",
+        [Sequelize.fn("AVG", Sequelize.col("progress")), "average"],
+      ],
+      group: ["userId"],
+    });
+
+    return enrollment;
   }
 
+  
 
 
 }
-
-
